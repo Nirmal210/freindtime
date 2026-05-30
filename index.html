@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>FriendTime — Watch Together, Feel Together</title>
+<title>WatchRoom — Watch Together, Anywhere</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -28,7 +28,7 @@ h1,h2,h3,h4,h5{font-family:'Syne',sans-serif;font-weight:700}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(8,9,13,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;color:var(--text);display:flex;align-items:center;gap:8px;cursor:pointer}
+.nav-logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;color:var(--text);display:flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none}
 .nav-logo-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 12px var(--accent)}50%{box-shadow:0 0 24px var(--accent2)}}
 .nav-links{display:flex;gap:32px;list-style:none}
@@ -69,7 +69,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .player-wrapper{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;display:grid;grid-template-columns:1fr 320px;min-height:520px}
 .player-main{position:relative;background:#000;display:flex;flex-direction:column}
 .player-screen{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0a14,#12101c);min-height:320px;overflow:hidden}
-.player-screen-art{width:100%;height:100%;object-fit:cover;opacity:0.3}
 .player-screen-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
 .play-btn-big{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;backdrop-filter:blur(8px)}
 .play-btn-big:hover{background:var(--accent);border-color:var(--accent);transform:scale(1.08)}
@@ -157,16 +156,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .step h4{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.3px}
 .step p{font-size:13px;color:var(--muted);line-height:1.6;font-weight:300}
 
-/* ROOM CREATE */
-.room-section{padding:100px 24px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
-.room-info h2{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px;margin-bottom:16px;line-height:1.1}
-.room-info p{color:var(--muted);font-weight:300;line-height:1.8;margin-bottom:24px}
-.room-perk{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
-.room-perk-icon{width:28px;height:28px;border-radius:8px;background:rgba(124,92,252,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.room-perk-icon svg{width:14px;height:14px;fill:var(--accent2)}
-.room-perk-text{font-size:14px;color:var(--muted);line-height:1.6;font-weight:300}
-.room-form-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:32px}
-.form-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px;letter-spacing:-0.3px}
+/* CREATE / JOIN SECTION */
+.cj-section{padding:100px 24px;max-width:1100px;margin:0 auto}
+.cj-cards{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:56px}
+.room-form-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:32px;transition:border-color .3s}
+.room-form-card:hover{border-color:rgba(124,92,252,0.25)}
+.room-form-card.join-card{border-color:rgba(94,234,212,0.15)}
+.room-form-card.join-card:hover{border-color:rgba(94,234,212,0.35)}
+.form-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:6px;letter-spacing:-0.3px}
+.form-subtitle{font-size:13px;color:var(--muted);margin-bottom:24px;font-weight:300}
 .form-group{margin-bottom:18px}
 .form-label{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:7px;display:block;letter-spacing:0.3px}
 .form-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
@@ -181,6 +179,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .toggle-label{font-size:13px;font-weight:500;color:var(--muted)}
 .btn-create{width:100%;padding:14px;border-radius:12px;background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;letter-spacing:0.3px;margin-top:8px}
 .btn-create:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 8px 30px rgba(124,92,252,0.35)}
+.btn-join-submit{width:100%;padding:14px;border-radius:12px;background:transparent;border:2px solid var(--accent3);color:var(--accent3);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;letter-spacing:0.3px;margin-top:8px}
+.btn-join-submit:hover{background:var(--accent3);color:#000;transform:translateY(-1px);box-shadow:0 8px 30px rgba(94,234,212,0.25)}
+.or-divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;margin:32px 0}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 
 /* TECH */
 .tech-section{padding:80px 24px;max-width:1000px;margin:0 auto;text-align:center}
@@ -235,7 +237,7 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
 .rc-btn:hover{background:var(--bg4);border-color:var(--accent);color:var(--text)}
 .rc-btn svg{width:16px;height:16px;fill:currentColor}
 .rc-progress{flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;cursor:pointer;position:relative}
-.rc-fill{height:100%;width:27%;background:var(--accent);border-radius:3px;transition:width .5s}
+.rc-fill{height:100%;width:0%;background:var(--accent);border-radius:3px;transition:width .5s}
 .rc-time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:80px;text-align:center}
 .room-side{display:flex;flex-direction:column;border-left:1px solid var(--border);background:var(--bg2)}
 .room-faces{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px}
@@ -244,6 +246,7 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
 .rf2{background:linear-gradient(135deg,#091a1c,#0e2824)}
 .rf3{background:linear-gradient(135deg,#1a1200,#2a1e00)}
 .rf4{background:linear-gradient(135deg,#0f0f1e,#191930)}
+.rf-empty{background:var(--bg3);border:1px dashed rgba(255,255,255,0.1)}
 .rf-name{position:absolute;bottom:0;left:0;right:0;font-size:10px;font-weight:700;padding:5px 7px;background:linear-gradient(transparent,rgba(0,0,0,0.85));color:#fff}
 .rf-mic{position:absolute;top:5px;right:5px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .rf-mic svg{width:8px;height:8px;fill:#fff}
@@ -281,7 +284,7 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
   .nav-links{display:none}
   .player-wrapper{grid-template-columns:1fr}
   .player-sidebar{display:none}
-  .room-section{grid-template-columns:1fr;gap:40px}
+  .cj-cards{grid-template-columns:1fr}
   .steps-row{flex-direction:column;gap:32px}
   .steps-row::before{display:none}
   .room-body{grid-template-columns:1fr}
@@ -299,19 +302,18 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo" onclick="scrollTo({top:0,behavior:'smooth'})">
+  <a class="nav-logo" href="/">
     <div class="nav-logo-dot"></div>
-    FriendTime
-  </div>
+    WatchRoom
+  </a>
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#how">How It Works</a></li>
-    <li><a href="#create">Create Room</a></li>
-    <li><a href="#tech">Tech Stack</a></li>
+    <li><a href="#create">Rooms</a></li>
   </ul>
   <div class="nav-cta">
-    <button class="btn-ghost" onclick="showLoginModal()">Log In</button>
-    <button class="btn-primary" onclick="scrollToCreate()">Start Watching</button>
+    <button class="btn-ghost" onclick="showJoinModal()">Join a Room</button>
+    <button class="btn-primary" onclick="scrollToCreate()">Create a Room</button>
   </div>
 </nav>
 
@@ -321,12 +323,12 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
     <div class="hero-orb hero-orb1"></div>
     <div class="hero-orb hero-orb2"></div>
   </div>
-  <div class="hero-badge"><div class="hero-badge-dot"></div>Now in Early Access — Free Forever</div>
-  <h1>Watch Movies<br>with Friends,<br>Actually Together</h1>
-  <p class="hero-sub">Private rooms. Perfect sync. Real-time video & voice. No accounts needed. Just share a link and hit play.</p>
+  <div class="hero-badge"><div class="hero-badge-dot"></div>Free &amp; Open — No Account Required</div>
+  <h1>Watch Together,<br>From Anywhere<br>in the World</h1>
+  <p class="hero-sub">Private rooms. Perfect sync. Real-time voice &amp; chat. Create a room, share the link, and start watching — instantly.</p>
   <div class="hero-actions">
-    <button class="btn-hero btn-hero-primary" onclick="scrollToCreate()">Create a Room — It's Free</button>
-    <button class="btn-hero btn-hero-outline" onclick="openDemoRoom()">▶ Watch Demo</button>
+    <button class="btn-hero btn-hero-primary" onclick="scrollToCreate()">Create a Room — Free</button>
+    <button class="btn-hero btn-hero-outline" onclick="showJoinModal()">Join a Room →</button>
   </div>
   <div class="hero-stats">
     <div><div class="hero-stat-num">0ms</div><div class="hero-stat-label">Sync delay target</div></div>
@@ -336,11 +338,11 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
   </div>
 </section>
 
-<!-- DEMO PLAYER -->
+<!-- PREVIEW PLAYER -->
 <section class="demo-section" id="demo">
-  <div class="section-label">Live Demo</div>
+  <div class="section-label">Platform Preview</div>
   <h2 class="section-title">The Watch Party Experience</h2>
-  <p class="section-sub">A room as it looks in action — friends synced, chatting, reacting.</p>
+  <p class="section-sub">A room as it looks in action — perfectly synced, with live chat and reactions.</p>
   <div class="player-wrapper">
     <div class="player-main">
       <div class="player-screen">
@@ -348,8 +350,8 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
           <div class="play-btn-big" id="demoPlay" onclick="toggleDemoPlay()">
             <svg id="demoPlayIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>
-          <div class="player-title-overlay">Interstellar</div>
-          <div class="player-year-overlay">2014 · Sci-Fi · 2h 49m</div>
+          <div class="player-title-overlay">Your Movie Here</div>
+          <div class="player-year-overlay">Upload any video file to stream</div>
         </div>
         <div class="sync-badge"><div class="sync-dot"></div><span id="syncStatus">All synced</span></div>
       </div>
@@ -367,7 +369,7 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
           <div class="ctrl-btn" title="Skip forward">
             <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
           </div>
-          <span class="ctrl-time" id="demoTime">0:34:12 / 2:49:00</span>
+          <span class="ctrl-time" id="demoTime">0:00:00 / 2:00:00</span>
           <div class="host-tag">HOST</div>
           <div class="ctrl-spacer"></div>
           <div class="ctrl-volume">
@@ -384,30 +386,35 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
     </div>
     <div class="player-sidebar">
       <div class="sidebar-tabs">
-        <div class="stab active" onclick="switchTab('friends')">Friends</div>
+        <div class="stab active" onclick="switchTab('friends')">Viewers</div>
         <div class="stab" onclick="switchTab('chat')">Chat</div>
       </div>
       <div class="tab-content active" id="tab-friends">
         <div class="friends-grid">
           <div class="friend-tile">
-            <div class="friend-avatar fa1">AK</div>
-            <div class="friend-name">Arjun K.</div>
+            <div class="friend-avatar fa1">
+              <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:rgba(255,255,255,0.5)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="friend-name">You (Host)</div>
             <div class="friend-mic mic-on"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div>
           </div>
           <div class="friend-tile">
-            <div class="friend-avatar fa2">PS</div>
-            <div class="friend-name">Priya S.</div>
+            <div class="friend-avatar fa2">
+              <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:rgba(255,255,255,0.5)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="friend-name">Guest 2</div>
             <div class="friend-mic mic-on"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div>
           </div>
           <div class="friend-tile">
-            <div class="friend-avatar fa3">RV</div>
-            <div class="friend-name">Rohan V.</div>
+            <div class="friend-avatar fa3">
+              <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:rgba(255,255,255,0.5)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="friend-name">Guest 3</div>
             <div class="friend-mic mic-off"><svg viewBox="0 0 24 24"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.34 3 3 3 .23 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/></svg></div>
           </div>
-          <div class="friend-tile">
-            <div class="friend-avatar fa4">MJ</div>
-            <div class="friend-name">Mia J.</div>
-            <div class="friend-mic mic-on"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div>
+          <div class="friend-tile rf-empty" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px">
+            <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:rgba(255,255,255,0.2)"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            <span style="font-size:10px;color:var(--muted);font-weight:600">Invite</span>
           </div>
         </div>
         <div class="reaction-row">
@@ -421,10 +428,10 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
       <div class="tab-content" id="tab-chat">
         <div class="chat-area">
           <div class="chat-messages" id="chatMessages">
-            <div class="chat-msg"><div class="chat-sender">Arjun K.</div><div class="chat-text">omg this scene is insane 🚀</div></div>
-            <div class="chat-msg"><div class="chat-sender s2">Priya S.</div><div class="chat-text">Hans Zimmer is a genius fr</div></div>
-            <div class="chat-msg"><div class="chat-sender s3">Rohan V.</div><div class="chat-text">wait wait pause here!!!!</div></div>
-            <div class="chat-msg"><div class="chat-sender">Arjun K.</div><div class="chat-text">already did 😂 look at that shot</div></div>
+            <div class="chat-msg"><div class="chat-sender">Guest 2</div><div class="chat-text">This is amazing! 🚀</div></div>
+            <div class="chat-msg"><div class="chat-sender s2">Guest 3</div><div class="chat-text">Perfect sync — no lag at all</div></div>
+            <div class="chat-msg"><div class="chat-sender">Guest 2</div><div class="chat-text">Can we pause here?</div></div>
+            <div class="chat-msg"><div class="chat-sender s3">You</div><div class="chat-text">Paused! 😂 look at this shot</div></div>
           </div>
           <div class="chat-input-row">
             <input class="chat-input" id="chatInput" placeholder="Say something..." onkeydown="if(event.key==='Enter')sendChat()"/>
@@ -450,14 +457,14 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
     </div>
     <div class="feature-card">
       <div class="feature-icon fi-teal">📷</div>
-      <h3>Live Friend Faces</h3>
-      <p>See your friends reacting live in a Discord-style grid. WebRTC peer-to-peer video — no delay, no quality loss, no third-party relay.</p>
+      <h3>Live Viewer Cameras</h3>
+      <p>See everyone reacting live in a grid. WebRTC peer-to-peer video — no delay, no quality loss, no third-party relay.</p>
       <span class="feature-tag">WebRTC P2P</span>
     </div>
     <div class="feature-card">
       <div class="feature-icon fi-red">🎙</div>
       <h3>Crystal Clear Voice</h3>
-      <p>High-fidelity voice with echo cancellation and noise suppression built in. Talk continuously while the movie plays without interruption.</p>
+      <p>High-fidelity voice with echo cancellation and noise suppression built in. Talk while the movie plays without interruption.</p>
       <span class="feature-tag">Audio Processing</span>
     </div>
     <div class="feature-card">
@@ -468,9 +475,9 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
     </div>
     <div class="feature-card">
       <div class="feature-icon fi-purple">💬</div>
-      <h3>Live Reactions & Chat</h3>
-      <p>Emoji reactions, real-time message chat, and join/leave notifications. All stored per-room session, never shared with anyone else.</p>
-      <span class="feature-tag">Socket.IO</span>
+      <h3>Live Reactions &amp; Chat</h3>
+      <p>Emoji reactions, real-time message chat, and join/leave notifications. All stored per-room session, never shared externally.</p>
+      <span class="feature-tag">Real-Time</span>
     </div>
     <div class="feature-card">
       <div class="feature-icon fi-teal">📁</div>
@@ -490,13 +497,13 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
     <div class="steps-row">
       <div class="step">
         <div class="step-num">1</div>
-        <h4>Create a Room</h4>
-        <p>Name your room, set a password if you like. A unique link is generated instantly.</p>
+        <h4>Create or Join</h4>
+        <p>Create a new room or enter a room code from a friend. No account needed.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <h4>Share the Link</h4>
-        <p>Send the link to your friends via WhatsApp, Discord, iMessage — anywhere.</p>
+        <p>Send the invite link to anyone via WhatsApp, Discord, iMessage — anywhere.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
@@ -512,39 +519,27 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
   </div>
 </section>
 
-<!-- ROOM CREATE -->
-<section style="padding:100px 24px" id="create">
-  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center" class="room-section-inner">
-    <div class="room-info">
-      <div class="section-label" style="text-align:left">Create Your Room</div>
-      <h2>Your Private<br>Cinema, Online</h2>
-      <p>No ads. No tracking. No public room discovery. FriendTime is your space — secured, clean, yours.</p>
-      <div class="room-perk">
-        <div class="room-perk-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
-        <div class="room-perk-text">Invite link expires when the room closes — no permanent links floating around</div>
-      </div>
-      <div class="room-perk">
-        <div class="room-perk-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
-        <div class="room-perk-text">Host controls playback for everyone — no more "wait wait I paused"</div>
-      </div>
-      <div class="room-perk">
-        <div class="room-perk-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
-        <div class="room-perk-text">Works on desktop, Android, iOS and tablet — fully responsive layout</div>
-      </div>
-    </div>
+<!-- CREATE / JOIN ROOMS -->
+<section class="cj-section" id="create">
+  <div class="section-label" style="text-align:center">Get Started</div>
+  <h2 class="section-title">Create or Join a Room</h2>
+  <p class="section-sub">Start your own watch party or jump into a friend's room — no account needed.</p>
+  <div class="cj-cards">
+    <!-- CREATE ROOM CARD -->
     <div class="room-form-card">
-      <div class="form-title">Create a Watch Room</div>
+      <div class="form-title">Create a Room</div>
+      <div class="form-subtitle">Set up a private watch party and invite your friends.</div>
       <div class="form-group">
         <label class="form-label">Room Name</label>
         <input class="form-input" id="roomName" type="text" placeholder="e.g. Friday Night Movies"/>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Your Name</label>
-          <input class="form-input" id="hostName" type="text" placeholder="Your display name"/>
+          <label class="form-label">Your Display Name</label>
+          <input class="form-input" id="hostName" type="text" placeholder="Your name"/>
         </div>
         <div class="form-group">
-          <label class="form-label">Max Friends</label>
+          <label class="form-label">Max Viewers</label>
           <select class="form-input" id="maxFriends">
             <option>2 people</option>
             <option selected>4 people</option>
@@ -563,7 +558,26 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
           <span class="toggle-label">Password protect this room</span>
         </div>
       </div>
-      <button class="btn-create" onclick="createRoom()">Create Room & Get Link →</button>
+      <button class="btn-create" onclick="createRoom()">Create Room &amp; Get Link →</button>
+    </div>
+
+    <!-- JOIN ROOM CARD -->
+    <div class="room-form-card join-card">
+      <div class="form-title">Join a Room</div>
+      <div class="form-subtitle">Have a room code or invite link? Enter it below to join.</div>
+      <div class="form-group">
+        <label class="form-label">Room ID or Invite Link</label>
+        <input class="form-input" id="joinRoomCode" type="text" placeholder="e.g. wr-a8k2qp or full link..."/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Display Name</label>
+        <input class="form-input" id="joinDisplayName" type="text" placeholder="Your name"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Room Password (if required)</label>
+        <input class="form-input" id="joinPassword" type="password" placeholder="Leave blank if no password"/>
+      </div>
+      <button class="btn-join-submit" onclick="joinRoomFromCard()">Join Room →</button>
     </div>
   </div>
 </section>
@@ -572,22 +586,16 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
 <section class="tech-section" id="tech">
   <div class="section-label">Under the Hood</div>
   <h2 class="section-title">Production-Grade Stack</h2>
-  <p class="section-sub">Built on battle-tested open-source tech. Self-host it, own it forever.</p>
+  <p class="section-sub">Built on battle-tested open-source technology. Reliable, fast, and secure.</p>
   <div class="tech-grid">
-    <div class="tech-pill"><strong>Next.js</strong> Frontend</div>
-    <div class="tech-pill"><strong>TypeScript</strong> Type Safety</div>
-    <div class="tech-pill"><strong>Tailwind CSS</strong> Styling</div>
-    <div class="tech-pill"><strong>Framer Motion</strong> Animations</div>
-    <div class="tech-pill"><strong>Node.js</strong> Backend</div>
-    <div class="tech-pill"><strong>Express</strong> REST API</div>
-    <div class="tech-pill"><strong>Socket.IO</strong> Real-time</div>
     <div class="tech-pill"><strong>WebRTC</strong> P2P Video</div>
-    <div class="tech-pill"><strong>PostgreSQL</strong> Database</div>
-    <div class="tech-pill"><strong>Redis</strong> State Cache</div>
+    <div class="tech-pill"><strong>Socket.IO</strong> Real-time</div>
+    <div class="tech-pill"><strong>Node.js</strong> Backend</div>
     <div class="tech-pill"><strong>FFmpeg</strong> Video Pipeline</div>
-    <div class="tech-pill"><strong>Docker</strong> Containerized</div>
-    <div class="tech-pill"><strong>Nginx</strong> Reverse Proxy</div>
-    <div class="tech-pill"><strong>Linux VPS</strong> Self-Hosted</div>
+    <div class="tech-pill"><strong>Netlify</strong> Edge CDN</div>
+    <div class="tech-pill"><strong>E2E</strong> Encryption</div>
+    <div class="tech-pill"><strong>HD</strong> Video Quality</div>
+    <div class="tech-pill"><strong>WebSocket</strong> Sync Engine</div>
   </div>
 </section>
 
@@ -595,40 +603,48 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
 <footer>
   <div class="footer-logo">
     <div class="nav-logo-dot"></div>
-    FriendTime
+    WatchRoom
   </div>
   <div class="footer-links">
     <a href="#">Privacy</a>
     <a href="#">Terms</a>
-    <a href="#">GitHub</a>
-    <a href="#">Documentation</a>
-    <a href="#">Self-Host Guide</a>
+    <a href="#">How It Works</a>
+    <a href="#create">Create Room</a>
   </div>
-  <div class="footer-copy">© 2025 FriendTime. All rights reserved.</div>
+  <div class="footer-copy">© 2025 WatchRoom. Free to use, forever.</div>
 </footer>
 
 <!-- ROOM CREATED MODAL -->
 <div class="modal-overlay" id="roomModal">
   <div class="modal">
     <div class="modal-close" onclick="closeModal()">✕</div>
-    <h3>🎉 Room Created!</h3>
-    <p>Share this link with your friends. The party starts when everyone clicks it.</p>
-    <div class="room-link-box" id="roomLinkDisplay">friendtime.com/room/ft-xxxxxx</div>
+    <h3>Room Created!</h3>
+    <p>Share this link with anyone you want to watch with. The party starts when they click it.</p>
+    <div class="room-link-box" id="roomLinkDisplay"></div>
     <button class="btn-copy" onclick="copyLink()">Copy Invite Link</button>
     <button class="btn-join-room" onclick="openRoom()">Enter Room Now →</button>
   </div>
 </div>
 
-<!-- LOGIN MODAL -->
-<div class="modal-overlay" id="loginModal">
+<!-- JOIN ROOM MODAL (from nav/hero) -->
+<div class="modal-overlay" id="joinModal">
   <div class="modal">
-    <div class="modal-close" onclick="closeLoginModal()">✕</div>
-    <h3>Welcome Back</h3>
-    <p>Sign in to manage your rooms and watch history.</p>
-    <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="you@example.com"/></div>
-    <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" placeholder="••••••••"/></div>
-    <button class="btn-create" onclick="closeLoginModal();showToast('Welcome back! 👋')">Sign In</button>
-    <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--muted)">No account? <span style="color:var(--accent2);cursor:pointer;font-weight:600" onclick="closeLoginModal();showToast('Sign-up coming soon!')">Sign Up Free</span></div>
+    <div class="modal-close" onclick="closeJoinModal()">✕</div>
+    <h3>Join a Room</h3>
+    <p>Enter the room ID or paste the full invite link your friend shared with you.</p>
+    <div class="form-group">
+      <label class="form-label">Room ID or Invite Link</label>
+      <input class="form-input" id="joinModalCode" type="text" placeholder="wr-xxxxxx or full URL..." onkeydown="if(event.key==='Enter')joinRoomFromModal()"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your Display Name</label>
+      <input class="form-input" id="joinModalName" type="text" placeholder="Your name" onkeydown="if(event.key==='Enter')joinRoomFromModal()"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Room Password (if required)</label>
+      <input class="form-input" id="joinModalPass" type="password" placeholder="Leave blank if none" onkeydown="if(event.key==='Enter')joinRoomFromModal()"/>
+    </div>
+    <button class="btn-join-submit" style="border-color:var(--accent);color:var(--accent2)" onclick="joinRoomFromModal()">Join Room →</button>
   </div>
 </div>
 
@@ -637,8 +653,8 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
   <div class="room-header">
     <div class="room-header-left">
       <div class="nav-logo-dot"></div>
-      <div class="room-name" id="roomNameDisplay">Friday Night Movies</div>
-      <div class="room-id-badge" id="roomIdBadge">ft-a8k2qp</div>
+      <div class="room-name" id="roomNameDisplay">Watch Room</div>
+      <div class="room-id-badge" id="roomIdBadge">wr-xxxxxx</div>
     </div>
     <div class="room-header-right">
       <button class="rbtn" onclick="copyRoomLink()">🔗 Invite</button>
@@ -651,16 +667,16 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
       <div class="room-video" onclick="toggleRoomPlay()">
         <div class="room-video-art">
           <div class="rv-title" id="rvTitle">Awaiting video...</div>
-          <div class="rv-sub">Host: upload a video file to start</div>
+          <div class="rv-sub">Host: click "Upload Video" to start</div>
         </div>
-        <div class="room-sync"><div class="sync-dot"></div><span id="roomSyncStatus">Synced · 4 friends</span></div>
+        <div class="room-sync"><div class="sync-dot"></div><span id="roomSyncStatus">Synced</span></div>
       </div>
       <div class="room-ctrl">
         <div class="rc-btn" onclick="toggleRoomPlay()" id="roomPlayBtn" title="Play/Pause">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </div>
         <div class="rc-btn" title="Rewind 10s">
-          <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8zm-1.1 11H10v-3.26L9 13.15v-.85l1.8-.62h.1V16zm4.28-1.05c0 .63-.07 1.08-.22 1.36-.18.33-.49.5-.93.5s-.74-.16-.92-.49c-.18-.32-.27-.77-.27-1.37v-.72c0-.63.07-1.08.22-1.36.18-.33.49-.5.93-.5s.74.16.92.49c.18.32.27.77.27 1.37v.72zm-.41-.74c0-.42-.03-.71-.1-.88a.33.33 0 0 0-.33-.26c-.14 0-.25.08-.32.25-.07.17-.11.45-.11.87v.9c0 .42.04.71.11.89.07.17.18.26.33.26.14 0 .25-.08.32-.25.07-.17.1-.46.1-.88v-.9z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
         </div>
         <div class="rc-progress" onclick="seekRoom(event)">
           <div class="rc-fill" id="roomProgress"></div>
@@ -675,17 +691,28 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
       </div>
     </div>
     <div class="room-side">
-      <div class="room-faces">
-        <div class="rf-tile rf1">AK<div class="rf-name">Arjun K.</div><div class="rf-mic mic-on" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div></div>
-        <div class="rf-tile rf2">PS<div class="rf-name">Priya S.</div><div class="rf-mic mic-on" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div></div>
-        <div class="rf-tile rf3">RV<div class="rf-name">Rohan V.</div><div class="rf-mic mic-off" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.34 3 3 3 .23 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/></svg></div></div>
-        <div class="rf-tile rf4">MJ<div class="rf-name">Mia J.</div><div class="rf-mic mic-on" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div></div>
+      <div class="room-faces" id="roomFaces">
+        <div class="rf-tile rf1">
+          <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:rgba(255,255,255,0.5)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          <div class="rf-name" id="roomHostName">You (Host)</div>
+          <div class="rf-mic mic-on" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div>
+        </div>
+        <div class="rf-tile rf2" id="guest2Tile">
+          <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:rgba(255,255,255,0.3)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          <div class="rf-name">Waiting...</div>
+        </div>
+        <div class="rf-tile rf3" id="guest3Tile">
+          <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:rgba(255,255,255,0.3)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          <div class="rf-name">Waiting...</div>
+        </div>
+        <div class="rf-tile rf-empty" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer" onclick="copyRoomLink()">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:rgba(255,255,255,0.2)"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          <span style="font-size:9px;color:var(--muted);font-weight:600">Invite</span>
+        </div>
       </div>
       <div class="room-chat">
         <div class="room-chat-msgs" id="roomChatMsgs">
-          <div class="rc-msg"><div class="rc-sender rc-s1">Arjun K.</div><div class="rc-text">Let's gooo 🚀</div></div>
-          <div class="rc-msg"><div class="rc-sender rc-s2">Priya S.</div><div class="rc-text">ready!! upload the movie</div></div>
-          <div class="rc-msg"><div class="rc-sender rc-s3">Rohan V.</div><div class="rc-text">waiting for you all 👀</div></div>
+          <div class="rc-msg"><div class="rc-sender rc-s1">System</div><div class="rc-text">Room created. Share the invite link to bring your friends!</div></div>
         </div>
         <div class="room-chat-input">
           <input placeholder="Message..." id="roomChatInput" onkeydown="if(event.key==='Enter')sendRoomChat()"/>
@@ -700,8 +727,8 @@ footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-i
 <div class="toast" id="toast"></div>
 
 <script>
-var demoPlaying=false,demoTimer=null,demoSecs=2052;
-var roomId='',currentRoomName='';
+var demoPlaying=false,demoTimer=null,demoSecs=0;
+var roomId='',currentRoomName='',currentUserName='';
 
 function toggleDemoPlay(){
   demoPlaying=!demoPlaying;
@@ -713,13 +740,13 @@ function toggleDemoPlay(){
 }
 function tickDemo(){
   demoSecs++;
-  if(demoSecs>=10140)demoSecs=0;
-  document.getElementById('demoProgress').style.width=(demoSecs/10140*100)+'%';
-  document.getElementById('demoTime').textContent=fmtTime(demoSecs)+' / 2:49:00';
+  if(demoSecs>=7200)demoSecs=0;
+  document.getElementById('demoProgress').style.width=(demoSecs/7200*100)+'%';
+  document.getElementById('demoTime').textContent=fmtTime(demoSecs)+' / 2:00:00';
 }
 function fmtTime(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return h+':'+pad(m)+':'+pad(sec)}
 function pad(n){return n<10?'0'+n:n}
-function seekDemo(e){var bar=e.currentTarget,pct=(e.clientX-bar.getBoundingClientRect().left)/bar.offsetWidth;demoSecs=Math.floor(pct*10140);document.getElementById('demoProgress').style.width=(pct*100)+'%';document.getElementById('demoTime').textContent=fmtTime(demoSecs)+' / 2:49:00';}
+function seekDemo(e){var bar=e.currentTarget,pct=(e.clientX-bar.getBoundingClientRect().left)/bar.offsetWidth;demoSecs=Math.floor(pct*7200);document.getElementById('demoProgress').style.width=(pct*100)+'%';document.getElementById('demoTime').textContent=fmtTime(demoSecs)+' / 2:00:00';}
 function switchTab(tab){
   document.querySelectorAll('.stab').forEach((t,i)=>{t.classList.toggle('active',['friends','chat'][i]===tab)});
   document.getElementById('tab-friends').classList.toggle('active',tab==='friends');
@@ -730,40 +757,97 @@ function sendChat(){
   var inp=document.getElementById('chatInput'),msg=inp.value.trim();
   if(!msg)return;
   var div=document.createElement('div');div.className='chat-msg';
-  div.innerHTML=`<div class="chat-sender" style="color:#ff8ca8">You</div><div class="chat-text">${msg}</div>`;
+  div.innerHTML=`<div class="chat-sender s3">You</div><div class="chat-text">${escHtml(msg)}</div>`;
   document.getElementById('chatMessages').appendChild(div);
   inp.value='';
   document.getElementById('chatMessages').scrollTop=9999;
 }
 function togglePwd(){var t=document.getElementById('pwdToggle');t.classList.toggle('on')}
-function genId(){return 'ft-'+Math.random().toString(36).substr(2,6)}
+function genId(){return 'wr-'+Math.random().toString(36).substr(2,6)}
+
 function createRoom(){
   var name=document.getElementById('roomName').value.trim()||'My Watch Room';
   var host=document.getElementById('hostName').value.trim()||'Host';
   roomId=genId();
   currentRoomName=name;
-  document.getElementById('roomLinkDisplay').textContent='friendtime.com/room/'+roomId;
+  currentUserName=host;
+  var link=window.location.origin+'/room/'+roomId;
+  document.getElementById('roomLinkDisplay').textContent=link;
   document.getElementById('roomModal').classList.add('open');
 }
+
 function closeModal(){document.getElementById('roomModal').classList.remove('open')}
-function copyLink(){navigator.clipboard.writeText('https://friendtime.com/room/'+roomId).catch(()=>{});showToast('Link copied! 🔗')}
+
+function copyLink(){
+  var link=window.location.origin+'/room/'+roomId;
+  navigator.clipboard.writeText(link).catch(()=>{});
+  showToast('Invite link copied!');
+}
+
 function openRoom(){
   closeModal();
   document.getElementById('roomNameDisplay').textContent=currentRoomName||'My Watch Room';
   document.getElementById('roomIdBadge').textContent=roomId||genId();
+  document.getElementById('roomHostName').textContent=(currentUserName||'You')+' (Host)';
   document.getElementById('watchRoom').classList.add('open');
   document.body.style.overflow='hidden';
+  history.pushState(null,'','/room/'+roomId);
 }
-function openDemoRoom(){
-  currentRoomName='Demo Room — Interstellar';
-  roomId=genId();
+
+// Join room from modal (nav/hero button)
+function showJoinModal(){
+  document.getElementById('joinModal').classList.add('open');
+  setTimeout(()=>document.getElementById('joinModalCode').focus(),100);
+}
+function closeJoinModal(){document.getElementById('joinModal').classList.remove('open')}
+function joinRoomFromModal(){
+  var code=document.getElementById('joinModalCode').value.trim();
+  var name=document.getElementById('joinModalName').value.trim()||'Guest';
+  _doJoinRoom(code,name);
+}
+
+// Join room from card (inline on page)
+function joinRoomFromCard(){
+  var code=document.getElementById('joinRoomCode').value.trim();
+  var name=document.getElementById('joinDisplayName').value.trim()||'Guest';
+  _doJoinRoom(code,name);
+}
+
+function _doJoinRoom(input,name){
+  if(!input){showToast('Please enter a room ID or link');return;}
+  var match=input.match(/(?:\/room\/)?(wr-[a-z0-9]+)/i)||input.match(/(wr-[a-z0-9]+)/i);
+  var id=match?match[1].toLowerCase():null;
+  if(!id){
+    var clean=input.replace(/[^a-z0-9]/gi,'').toLowerCase().substr(0,6);
+    if(clean.length<3){showToast('Invalid room ID — check the link and try again');return;}
+    id='wr-'+clean;
+  }
+  roomId=id;
+  currentRoomName='Watch Room';
+  currentUserName=name;
+  closeJoinModal();
   document.getElementById('roomNameDisplay').textContent=currentRoomName;
   document.getElementById('roomIdBadge').textContent=roomId;
-  document.getElementById('rvTitle').textContent='Interstellar';
+  document.getElementById('roomHostName').textContent=name+' (You)';
+  document.getElementById('rvTitle').textContent='Awaiting video...';
+  var systemMsg=document.createElement('div');
+  systemMsg.className='rc-msg';
+  systemMsg.innerHTML=`<div class="rc-sender rc-s2">System</div><div class="rc-text">You joined as ${escHtml(name)}. Waiting for the host to start the video.</div>`;
+  document.getElementById('roomChatMsgs').appendChild(systemMsg);
   document.getElementById('watchRoom').classList.add('open');
   document.body.style.overflow='hidden';
+  history.pushState(null,'','/room/'+roomId);
+  showToast('Joined room '+roomId+'!');
 }
-function closeRoom(){document.getElementById('watchRoom').classList.remove('open');document.body.style.overflow=''}
+
+function closeRoom(){
+  document.getElementById('watchRoom').classList.remove('open');
+  document.body.style.overflow='';
+  history.pushState(null,'','/');
+  clearInterval(roomTimer);
+  roomPlaying=false;
+  roomSecs=0;
+}
 var roomPlaying=false,roomSecs=0,roomTimer=null;
 function toggleRoomPlay(){
   roomPlaying=!roomPlaying;
@@ -771,7 +855,7 @@ function toggleRoomPlay(){
   btn.innerHTML=roomPlaying
     ?`<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`
     :`<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M8 5v14l11-7z"/></svg>`;
-  document.getElementById('roomSyncStatus').textContent=roomPlaying?'Playing · 4 synced':'Paused · 4 friends';
+  document.getElementById('roomSyncStatus').textContent=roomPlaying?'Playing · synced':'Paused';
   if(roomPlaying){roomTimer=setInterval(tickRoom,1000)}else{clearInterval(roomTimer)}
 }
 function tickRoom(){
@@ -782,24 +866,47 @@ function tickRoom(){
   document.getElementById('roomTime').textContent=pad(m)+':'+pad(s)+' / 2:00:00';
 }
 function seekRoom(e){var bar=e.currentTarget,pct=(e.clientX-bar.getBoundingClientRect().left)/bar.offsetWidth;roomSecs=Math.floor(pct*7200);var m=Math.floor(roomSecs/60),s=roomSecs%60;document.getElementById('roomTime').textContent=pad(m)+':'+pad(s)+' / 2:00:00';document.getElementById('roomProgress').style.width=(pct*100)+'%';}
-function copyRoomLink(){navigator.clipboard.writeText('https://friendtime.com/room/'+roomId).catch(()=>{});showToast('Invite link copied! 🔗')}
-function uploadVideo(){showToast('File picker: upload MP4, WebM, MOV, MKV...');document.getElementById('rvTitle').textContent='Interstellar (2014).mp4';document.getElementById('roomSyncStatus').textContent='Video loaded · 4 ready';}
+function copyRoomLink(){
+  var link=window.location.origin+'/room/'+roomId;
+  navigator.clipboard.writeText(link).catch(()=>{});
+  showToast('Invite link copied!');
+}
+function uploadVideo(){
+  showToast('Upload: MP4, WebM, MOV, MKV supported');
+  document.getElementById('rvTitle').textContent='Video Ready';
+  document.getElementById('roomSyncStatus').textContent='Video loaded · ready to play';
+}
 function sendRoomChat(){
   var inp=document.getElementById('roomChatInput'),msg=inp.value.trim();if(!msg)return;
   var div=document.createElement('div');div.className='rc-msg';
-  div.innerHTML=`<div class="rc-sender" style="color:var(--accent2)">You</div><div class="rc-text">${msg}</div>`;
+  div.innerHTML=`<div class="rc-sender" style="color:var(--accent2)">${escHtml(currentUserName||'You')}</div><div class="rc-text">${escHtml(msg)}</div>`;
   document.getElementById('roomChatMsgs').appendChild(div);
   inp.value='';document.getElementById('roomChatMsgs').scrollTop=9999;
 }
 function scrollToCreate(){document.getElementById('create').scrollIntoView({behavior:'smooth'})}
-function showLoginModal(){document.getElementById('loginModal').classList.add('open')}
-function closeLoginModal(){document.getElementById('loginModal').classList.remove('open')}
 var toastTimer=null;
 function showToast(msg){
   var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
 }
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('open');document.body.style.overflow=''}}));
+
+// Handle direct room URL: /room/wr-xxxxx
+(function(){
+  var match=window.location.pathname.match(/^\/room\/(wr-[a-z0-9]+)/i)||window.location.pathname.match(/^\/room\/([a-z0-9-]+)/i);
+  if(match){
+    var id=match[1];
+    roomId=id.startsWith('wr-')?id:'wr-'+id;
+    currentRoomName='Watch Room';
+    document.getElementById('roomNameDisplay').textContent=currentRoomName;
+    document.getElementById('roomIdBadge').textContent=roomId;
+    document.getElementById('rvTitle').textContent='Awaiting video...';
+    document.getElementById('watchRoom').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+})();
 </script>
 </body>
 </html>
