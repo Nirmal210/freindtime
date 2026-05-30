@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FriendTime — Watch Together, Feel Together</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#08090d;
+  --bg2:#0e1018;
+  --bg3:#14161f;
+  --bg4:#1c1f2e;
+  --accent:#7c5cfc;
+  --accent2:#b48fff;
+  --accent3:#5eead4;
+  --red:#ff5c7a;
+  --text:#f0f0f8;
+  --muted:#7a7a9a;
+  --border:rgba(255,255,255,0.07);
+  --glass:rgba(255,255,255,0.04);
+  --glow:rgba(124,92,252,0.18);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4,h5{font-family:'Syne',sans-serif;font-weight:700}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(8,9,13,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;color:var(--text);display:flex;align-items:center;gap:8px;cursor:pointer}
+.nav-logo-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 12px var(--accent)}50%{box-shadow:0 0 24px var(--accent2)}}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:15px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{display:flex;gap:12px}
+.btn-ghost{padding:9px 20px;border:1px solid var(--border);border-radius:8px;color:var(--muted);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;transition:all .2s}
+.btn-ghost:hover{border-color:var(--accent);color:var(--text)}
+.btn-primary{padding:9px 22px;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;transition:all .2s;letter-spacing:0.2px}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 20px var(--glow)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.25}
+.hero-orb1{width:600px;height:600px;background:var(--accent);top:-200px;left:50%;transform:translateX(-50%)}
+.hero-orb2{width:300px;height:300px;background:var(--accent3);bottom:0;right:10%}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid rgba(124,92,252,0.3);border-radius:50px;font-size:13px;font-weight:500;color:var(--accent2);background:rgba(124,92,252,0.08);margin-bottom:28px;cursor:default}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite}
+.hero h1{font-size:clamp(44px,7vw,88px);font-weight:800;line-height:1.0;letter-spacing:-3px;margin-bottom:24px;background:linear-gradient(135deg,#fff 40%,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--muted);max-width:560px;margin:0 auto 40px;line-height:1.7;font-weight:300}
+.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-hero{padding:15px 32px;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:all .25s;border:none}
+.btn-hero-primary{background:var(--accent);color:#fff;box-shadow:0 0 40px var(--glow)}
+.btn-hero-primary:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 8px 40px rgba(124,92,252,0.4)}
+.btn-hero-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-hero-outline:hover{border-color:var(--accent);background:var(--glass)}
+.hero-stats{display:flex;gap:48px;margin-top:64px;justify-content:center;flex-wrap:wrap}
+.hero-stat-num{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--text)}
+.hero-stat-label{font-size:13px;color:var(--muted);font-weight:400}
+
+/* DEMO PLAYER */
+.demo-section{padding:80px 24px;max-width:1200px;margin:0 auto}
+.section-label{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;text-align:center}
+.section-title{font-size:clamp(28px,4vw,44px);font-weight:800;text-align:center;letter-spacing:-1px;margin-bottom:8px}
+.section-sub{text-align:center;color:var(--muted);max-width:480px;margin:0 auto 48px;font-weight:300}
+
+.player-wrapper{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;display:grid;grid-template-columns:1fr 320px;min-height:520px}
+.player-main{position:relative;background:#000;display:flex;flex-direction:column}
+.player-screen{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0a14,#12101c);min-height:320px;overflow:hidden}
+.player-screen-art{width:100%;height:100%;object-fit:cover;opacity:0.3}
+.player-screen-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.play-btn-big{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;backdrop-filter:blur(8px)}
+.play-btn-big:hover{background:var(--accent);border-color:var(--accent);transform:scale(1.08)}
+.play-btn-big svg{width:28px;height:28px;fill:#fff;margin-left:4px}
+.player-title-overlay{color:#fff;font-family:'Syne',sans-serif;font-size:20px;font-weight:700;opacity:0.9;letter-spacing:-0.3px}
+.player-year-overlay{color:rgba(255,255,255,0.5);font-size:13px}
+.sync-badge{position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(94,234,212,0.12);border:1px solid rgba(94,234,212,0.25);border-radius:50px;font-size:12px;color:var(--accent3);font-weight:600}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 1.5s infinite}
+.player-controls{padding:16px 20px;background:var(--bg3);display:flex;flex-direction:column;gap:10px}
+.progress-bar{width:100%;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;cursor:pointer;position:relative}
+.progress-fill{height:100%;width:34%;background:var(--accent);border-radius:2px;position:relative}
+.progress-fill::after{content:'';position:absolute;right:-6px;top:-4px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 8px var(--accent)}
+.ctrl-row{display:flex;align-items:center;gap:12px}
+.ctrl-btn{width:36px;height:36px;border-radius:8px;background:transparent;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--muted)}
+.ctrl-btn:hover{background:var(--glass);border-color:var(--accent);color:var(--text)}
+.ctrl-btn svg{width:16px;height:16px;fill:currentColor}
+.ctrl-time{font-size:13px;color:var(--muted);margin-left:4px;font-variant-numeric:tabular-nums}
+.ctrl-spacer{flex:1}
+.ctrl-volume{display:flex;align-items:center;gap:8px}
+.vol-bar{width:72px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px}
+.vol-fill{height:100%;width:70%;background:var(--muted);border-radius:2px}
+.host-tag{padding:3px 10px;background:rgba(124,92,252,0.15);border:1px solid rgba(124,92,252,0.25);border-radius:50px;font-size:11px;color:var(--accent2);font-weight:600;margin-left:auto}
+
+/* SIDEBAR */
+.player-sidebar{display:flex;flex-direction:column;border-left:1px solid var(--border)}
+.sidebar-tabs{display:flex;border-bottom:1px solid var(--border)}
+.stab{flex:1;padding:14px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;border-bottom:2px solid transparent}
+.stab.active{color:var(--text);border-bottom-color:var(--accent)}
+.stab:hover:not(.active){color:var(--text)}
+.friends-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px}
+.friend-tile{background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;aspect-ratio:4/3;position:relative;cursor:pointer;transition:border-color .2s}
+.friend-tile:hover{border-color:rgba(124,92,252,0.4)}
+.friend-avatar{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:rgba(255,255,255,0.7)}
+.fa1{background:linear-gradient(135deg,#1a1030,#2a1850)}
+.fa2{background:linear-gradient(135deg,#0d1a1d,#0f2826)}
+.fa3{background:linear-gradient(135deg,#1a100d,#2a1a10)}
+.fa4{background:linear-gradient(135deg,#0d0d1a,#151528)}
+.friend-name{position:absolute;bottom:0;left:0;right:0;padding:6px 8px;font-size:11px;font-weight:600;background:linear-gradient(transparent,rgba(0,0,0,0.8));color:#fff}
+.friend-mic{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.mic-on{background:var(--accent3)}
+.mic-off{background:rgba(255,0,0,0.5)}
+.friend-mic svg{width:10px;height:10px;fill:#fff}
+.reaction-row{display:flex;gap:6px;padding:8px 12px;border-top:1px solid var(--border)}
+.react-btn{flex:1;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;font-size:18px;cursor:pointer;text-align:center;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.react-btn:hover{background:var(--bg4);border-color:var(--accent);transform:scale(1.1)}
+.chat-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.chat-messages{flex:1;padding:12px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:280px}
+.chat-msg{display:flex;flex-direction:column;gap:2px}
+.chat-sender{font-size:11px;font-weight:700;color:var(--accent2)}
+.chat-sender.s2{color:var(--accent3)}
+.chat-sender.s3{color:#ffb347}
+.chat-text{font-size:13px;color:var(--text);line-height:1.5;background:var(--bg3);padding:8px 12px;border-radius:0 10px 10px 10px;border:1px solid var(--border);max-width:90%;display:inline-block}
+.chat-input-row{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px}
+.chat-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.chat-input:focus{border-color:var(--accent)}
+.chat-send{width:34px;height:34px;border-radius:8px;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.chat-send:hover{background:var(--accent2)}
+.chat-send svg{width:14px;height:14px;fill:#fff}
+.tab-content{display:none;flex:1;flex-direction:column}
+.tab-content.active{display:flex}
+
+/* FEATURES */
+.features-section{padding:100px 24px;max-width:1200px;margin:0 auto}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:56px}
+.feature-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .3s;cursor:default;position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
+.feature-card:hover{border-color:rgba(124,92,252,0.3);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,0.3)}
+.feature-card:hover::before{background:linear-gradient(90deg,var(--accent),var(--accent3))}
+.feature-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:22px}
+.fi-purple{background:rgba(124,92,252,0.15);border:1px solid rgba(124,92,252,0.2)}
+.fi-teal{background:rgba(94,234,212,0.1);border:1px solid rgba(94,234,212,0.2)}
+.fi-red{background:rgba(255,92,122,0.1);border:1px solid rgba(255,92,122,0.2)}
+.fi-amber{background:rgba(255,180,71,0.1);border:1px solid rgba(255,180,71,0.2)}
+.feature-card h3{font-size:18px;font-weight:700;margin-bottom:8px;letter-spacing:-0.3px}
+.feature-card p{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
+.feature-tag{display:inline-block;margin-top:14px;padding:3px 10px;background:rgba(124,92,252,0.1);border:1px solid rgba(124,92,252,0.2);border-radius:50px;font-size:11px;color:var(--accent2);font-weight:600}
+
+/* HOW IT WORKS */
+.how-section{padding:100px 24px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.how-inner{max-width:900px;margin:0 auto}
+.steps-row{display:flex;gap:0;margin-top:56px;position:relative}
+.steps-row::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent3),transparent)}
+.step{flex:1;text-align:center;padding:0 20px;position:relative}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--bg3);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent);margin:0 auto 16px;position:relative;z-index:1}
+.step h4{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.3px}
+.step p{font-size:13px;color:var(--muted);line-height:1.6;font-weight:300}
+
+/* ROOM CREATE */
+.room-section{padding:100px 24px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.room-info h2{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px;margin-bottom:16px;line-height:1.1}
+.room-info p{color:var(--muted);font-weight:300;line-height:1.8;margin-bottom:24px}
+.room-perk{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.room-perk-icon{width:28px;height:28px;border-radius:8px;background:rgba(124,92,252,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.room-perk-icon svg{width:14px;height:14px;fill:var(--accent2)}
+.room-perk-text{font-size:14px;color:var(--muted);line-height:1.6;font-weight:300}
+.room-form-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:32px}
+.form-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px;letter-spacing:-0.3px}
+.form-group{margin-bottom:18px}
+.form-label{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:7px;display:block;letter-spacing:0.3px}
+.form-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--accent)}
+.form-input::placeholder{color:var(--muted)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:10px}
+.toggle-switch{width:40px;height:22px;border-radius:11px;background:var(--bg4);border:1px solid var(--border);position:relative;transition:background .2s;flex-shrink:0}
+.toggle-switch.on{background:var(--accent)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+.toggle-switch.on .toggle-thumb{left:20px}
+.toggle-label{font-size:13px;font-weight:500;color:var(--muted)}
+.btn-create{width:100%;padding:14px;border-radius:12px;background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;letter-spacing:0.3px;margin-top:8px}
+.btn-create:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 8px 30px rgba(124,92,252,0.35)}
+
+/* TECH */
+.tech-section{padding:80px 24px;max-width:1000px;margin:0 auto;text-align:center}
+.tech-grid{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
+.tech-pill{padding:10px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:50px;font-size:14px;font-weight:500;color:var(--muted);transition:all .2s;cursor:default}
+.tech-pill:hover{border-color:var(--accent);color:var(--text);background:var(--bg3)}
+.tech-pill strong{color:var(--text)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px}
+.footer-links{display:flex;gap:24px}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{font-size:13px;color:var(--muted)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:36px;width:100%;max-width:440px;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);transition:all .2s}
+.modal-close:hover{color:var(--text);border-color:var(--red)}
+.modal h3{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}
+.modal p{font-size:14px;color:var(--muted);margin-bottom:24px;font-weight:300}
+.room-link-box{background:var(--bg3);border:1px solid var(--accent);border-radius:10px;padding:14px 16px;font-family:monospace;font-size:14px;color:var(--accent2);margin-bottom:16px;word-break:break-all}
+.btn-copy{width:100%;padding:13px;border-radius:10px;background:transparent;border:1px solid var(--accent);color:var(--accent2);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-copy:hover{background:var(--accent);color:#fff}
+.btn-join-room{width:100%;padding:13px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;transition:all .2s}
+.btn-join-room:hover{background:var(--accent2);transform:translateY(-1px)}
+
+/* WATCH ROOM */
+.room-overlay{position:fixed;inset:0;background:var(--bg);z-index:200;display:none;flex-direction:column}
+.room-overlay.open{display:flex}
+.room-header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.room-header-left{display:flex;align-items:center;gap:12px}
+.room-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.3px}
+.room-id-badge{padding:3px 10px;background:rgba(124,92,252,0.12);border:1px solid rgba(124,92,252,0.2);border-radius:50px;font-size:12px;color:var(--accent2);font-family:monospace}
+.room-header-right{display:flex;gap:10px}
+.rbtn{padding:8px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--muted);transition:all .2s;display:flex;align-items:center;gap:6px}
+.rbtn:hover{color:var(--text);border-color:var(--accent)}
+.rbtn.danger{border-color:rgba(255,92,122,0.3);color:var(--red)}
+.rbtn.danger:hover{background:rgba(255,92,122,0.1)}
+.room-body{flex:1;display:grid;grid-template-columns:1fr 300px;overflow:hidden}
+.room-player{display:flex;flex-direction:column;background:#000}
+.room-video{flex:1;background:linear-gradient(135deg,#050508,#0d0b14);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
+.room-video-art{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;opacity:0.6}
+.rv-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;opacity:0.7;letter-spacing:-0.5px}
+.rv-sub{color:rgba(255,255,255,0.4);font-size:14px}
+.room-sync{position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(0,0,0,0.6);border:1px solid rgba(94,234,212,0.25);border-radius:50px;font-size:12px;color:var(--accent3);font-weight:600;backdrop-filter:blur(8px)}
+.room-ctrl{background:var(--bg2);border-top:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:12px}
+.rc-btn{width:38px;height:38px;border-radius:9px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--muted)}
+.rc-btn:hover{background:var(--bg4);border-color:var(--accent);color:var(--text)}
+.rc-btn svg{width:16px;height:16px;fill:currentColor}
+.rc-progress{flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;cursor:pointer;position:relative}
+.rc-fill{height:100%;width:27%;background:var(--accent);border-radius:3px;transition:width .5s}
+.rc-time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:80px;text-align:center}
+.room-side{display:flex;flex-direction:column;border-left:1px solid var(--border);background:var(--bg2)}
+.room-faces{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px}
+.rf-tile{aspect-ratio:4/3;border-radius:10px;border:1px solid var(--border);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:rgba(255,255,255,0.6);cursor:default}
+.rf1{background:linear-gradient(135deg,#140d2a,#201040)}
+.rf2{background:linear-gradient(135deg,#091a1c,#0e2824)}
+.rf3{background:linear-gradient(135deg,#1a1200,#2a1e00)}
+.rf4{background:linear-gradient(135deg,#0f0f1e,#191930)}
+.rf-name{position:absolute;bottom:0;left:0;right:0;font-size:10px;font-weight:700;padding:5px 7px;background:linear-gradient(transparent,rgba(0,0,0,0.85));color:#fff}
+.rf-mic{position:absolute;top:5px;right:5px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.rf-mic svg{width:8px;height:8px;fill:#fff}
+.room-chat{flex:1;display:flex;flex-direction:column;border-top:1px solid var(--border)}
+.room-chat-msgs{flex:1;padding:10px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:220px}
+.rc-msg{font-size:12px;line-height:1.5}
+.rc-sender{font-weight:700;font-size:11px;margin-bottom:1px}
+.rc-s1{color:var(--accent2)}
+.rc-s2{color:var(--accent3)}
+.rc-s3{color:#ffb347}
+.rc-s4{color:#ff8ca8}
+.rc-text{color:var(--text);opacity:0.9}
+.room-chat-input{padding:8px 10px;border-top:1px solid var(--border);display:flex;gap:6px}
+.room-chat-input input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:7px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none}
+.room-chat-input input:focus{border-color:var(--accent)}
+.room-chat-input button{width:30px;height:30px;border-radius:7px;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.room-chat-input button svg{width:12px;height:12px;fill:#fff}
+
+/* Toast */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--accent);border-radius:10px;padding:12px 24px;font-size:14px;font-weight:600;color:var(--text);z-index:9999;transition:transform .3s;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeIn .6s ease both}
+.hero>.hero-badge{animation-delay:.1s}
+.hero>h1{animation-delay:.2s}
+.hero>.hero-sub{animation-delay:.3s}
+.hero>.hero-actions{animation-delay:.4s}
+.hero>.hero-stats{animation-delay:.5s}
+
+/* Responsive */
+@media(max-width:900px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  .player-wrapper{grid-template-columns:1fr}
+  .player-sidebar{display:none}
+  .room-section{grid-template-columns:1fr;gap:40px}
+  .steps-row{flex-direction:column;gap:32px}
+  .steps-row::before{display:none}
+  .room-body{grid-template-columns:1fr}
+  .room-side{display:none}
+  footer{flex-direction:column;align-items:flex-start;padding:32px 24px}
+}
+@media(max-width:600px){
+  .hero-stats{gap:24px}
+  .features-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="scrollTo({top:0,behavior:'smooth'})">
+    <div class="nav-logo-dot"></div>
+    FriendTime
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#create">Create Room</a></li>
+    <li><a href="#tech">Tech Stack</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn-ghost" onclick="showLoginModal()">Log In</button>
+    <button class="btn-primary" onclick="scrollToCreate()">Start Watching</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb hero-orb1"></div>
+    <div class="hero-orb hero-orb2"></div>
+  </div>
+  <div class="hero-badge"><div class="hero-badge-dot"></div>Now in Early Access — Free Forever</div>
+  <h1>Watch Movies<br>with Friends,<br>Actually Together</h1>
+  <p class="hero-sub">Private rooms. Perfect sync. Real-time video & voice. No accounts needed. Just share a link and hit play.</p>
+  <div class="hero-actions">
+    <button class="btn-hero btn-hero-primary" onclick="scrollToCreate()">Create a Room — It's Free</button>
+    <button class="btn-hero btn-hero-outline" onclick="openDemoRoom()">▶ Watch Demo</button>
+  </div>
+  <div class="hero-stats">
+    <div><div class="hero-stat-num">0ms</div><div class="hero-stat-label">Sync delay target</div></div>
+    <div><div class="hero-stat-num">∞</div><div class="hero-stat-label">Private rooms</div></div>
+    <div><div class="hero-stat-num">HD</div><div class="hero-stat-label">Video quality</div></div>
+    <div><div class="hero-stat-num">E2E</div><div class="hero-stat-label">Encrypted rooms</div></div>
+  </div>
+</section>
+
+<!-- DEMO PLAYER -->
+<section class="demo-section" id="demo">
+  <div class="section-label">Live Demo</div>
+  <h2 class="section-title">The Watch Party Experience</h2>
+  <p class="section-sub">A room as it looks in action — friends synced, chatting, reacting.</p>
+  <div class="player-wrapper">
+    <div class="player-main">
+      <div class="player-screen">
+        <div class="player-screen-overlay">
+          <div class="play-btn-big" id="demoPlay" onclick="toggleDemoPlay()">
+            <svg id="demoPlayIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="player-title-overlay">Interstellar</div>
+          <div class="player-year-overlay">2014 · Sci-Fi · 2h 49m</div>
+        </div>
+        <div class="sync-badge"><div class="sync-dot"></div><span id="syncStatus">All synced</span></div>
+      </div>
+      <div class="player-controls">
+        <div class="progress-bar" onclick="seekDemo(event)">
+          <div class="progress-fill" id="demoProgress"></div>
+        </div>
+        <div class="ctrl-row">
+          <div class="ctrl-btn" onclick="toggleDemoPlay()" title="Play/Pause">
+            <svg id="ctrlIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="ctrl-btn" title="Skip back">
+            <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+          </div>
+          <div class="ctrl-btn" title="Skip forward">
+            <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+          </div>
+          <span class="ctrl-time" id="demoTime">0:34:12 / 2:49:00</span>
+          <div class="host-tag">HOST</div>
+          <div class="ctrl-spacer"></div>
+          <div class="ctrl-volume">
+            <div class="ctrl-btn" title="Volume">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            </div>
+            <div class="vol-bar"><div class="vol-fill"></div></div>
+          </div>
+          <div class="ctrl-btn" title="Fullscreen">
+            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="player-sidebar">
+      <div class="sidebar-tabs">
+        <div class="stab active" onclick="switchTab('friends')">Friends</div>
+        <div class="stab" onclick="switchTab('chat')">Chat</div>
+      </div>
+      <div class="tab-content active" id="tab-friends">
+        <div class="friends-grid">
+          <div class="friend-tile">
+            <div class="friend-avatar fa1">AK</div>
+            <div class="friend-name">Arjun K.</div>
+            <div class="friend-mic mic-on"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div>
+          </div>
+          <div class="friend-tile">
+            <div class="friend-avatar fa2">PS</div>
+            <div class="friend-name">Priya S.</div>
+            <div class="friend-mic mic-on"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div>
+          </div>
+          <div class="friend-tile">
+            <div class="friend-avatar fa3">RV</div>
+            <div class="friend-name">Rohan V.</div>
+            <div class="friend-mic mic-off"><svg viewBox="0 0 24 24"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.34 3 3 3 .23 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/></svg></div>
+          </div>
+          <div class="friend-tile">
+            <div class="friend-avatar fa4">MJ</div>
+            <div class="friend-name">Mia J.</div>
+            <div class="friend-mic mic-on"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div>
+          </div>
+        </div>
+        <div class="reaction-row">
+          <div class="react-btn" onclick="sendReaction('🔥')">🔥</div>
+          <div class="react-btn" onclick="sendReaction('😂')">😂</div>
+          <div class="react-btn" onclick="sendReaction('❤️')">❤️</div>
+          <div class="react-btn" onclick="sendReaction('😱')">😱</div>
+          <div class="react-btn" onclick="sendReaction('👏')">👏</div>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-chat">
+        <div class="chat-area">
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg"><div class="chat-sender">Arjun K.</div><div class="chat-text">omg this scene is insane 🚀</div></div>
+            <div class="chat-msg"><div class="chat-sender s2">Priya S.</div><div class="chat-text">Hans Zimmer is a genius fr</div></div>
+            <div class="chat-msg"><div class="chat-sender s3">Rohan V.</div><div class="chat-text">wait wait pause here!!!!</div></div>
+            <div class="chat-msg"><div class="chat-sender">Arjun K.</div><div class="chat-text">already did 😂 look at that shot</div></div>
+          </div>
+          <div class="chat-input-row">
+            <input class="chat-input" id="chatInput" placeholder="Say something..." onkeydown="if(event.key==='Enter')sendChat()"/>
+            <button class="chat-send" onclick="sendChat()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-label">Everything You Need</div>
+  <h2 class="section-title">Built for the Best Watch Party</h2>
+  <p class="section-sub">Everything a real watch party needs — nothing you don't.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">🎬</div>
+      <h3>Perfect Video Sync</h3>
+      <p>Host-controlled playback with real-time drift correction. Every pause, play, and seek propagates to all viewers in under 300ms.</p>
+      <span class="feature-tag">WebSocket Engine</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-teal">📷</div>
+      <h3>Live Friend Faces</h3>
+      <p>See your friends reacting live in a Discord-style grid. WebRTC peer-to-peer video — no delay, no quality loss, no third-party relay.</p>
+      <span class="feature-tag">WebRTC P2P</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-red">🎙</div>
+      <h3>Crystal Clear Voice</h3>
+      <p>High-fidelity voice with echo cancellation and noise suppression built in. Talk continuously while the movie plays without interruption.</p>
+      <span class="feature-tag">Audio Processing</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-amber">🔒</div>
+      <h3>Fully Private Rooms</h3>
+      <p>No public discovery. Every room has a unique ID and optional password. Only people with your link can join. Zero data sold.</p>
+      <span class="feature-tag">Invite-Only</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">💬</div>
+      <h3>Live Reactions & Chat</h3>
+      <p>Emoji reactions, real-time message chat, and join/leave notifications. All stored per-room session, never shared with anyone else.</p>
+      <span class="feature-tag">Socket.IO</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-teal">📁</div>
+      <h3>Any Video Format</h3>
+      <p>Upload MP4, WebM, MOV directly. MKV and AVI are auto-converted via an FFmpeg backend pipeline before streaming begins.</p>
+      <span class="feature-tag">FFmpeg Pipeline</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-label">Simple as It Gets</div>
+    <h2 class="section-title" style="text-align:center">Up in 30 Seconds</h2>
+    <p class="section-sub">No download. No signup required. Just a link.</p>
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Create a Room</h4>
+        <p>Name your room, set a password if you like. A unique link is generated instantly.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Share the Link</h4>
+        <p>Send the link to your friends via WhatsApp, Discord, iMessage — anywhere.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Upload Your Movie</h4>
+        <p>Drop in any video file. The host uploads once and everyone streams from it.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Press Play Together</h4>
+        <p>Everyone's synced. Turn on cameras. Talk. React. Watch like you're in the same room.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM CREATE -->
+<section style="padding:100px 24px" id="create">
+  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center" class="room-section-inner">
+    <div class="room-info">
+      <div class="section-label" style="text-align:left">Create Your Room</div>
+      <h2>Your Private<br>Cinema, Online</h2>
+      <p>No ads. No tracking. No public room discovery. FriendTime is your space — secured, clean, yours.</p>
+      <div class="room-perk">
+        <div class="room-perk-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+        <div class="room-perk-text">Invite link expires when the room closes — no permanent links floating around</div>
+      </div>
+      <div class="room-perk">
+        <div class="room-perk-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+        <div class="room-perk-text">Host controls playback for everyone — no more "wait wait I paused"</div>
+      </div>
+      <div class="room-perk">
+        <div class="room-perk-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+        <div class="room-perk-text">Works on desktop, Android, iOS and tablet — fully responsive layout</div>
+      </div>
+    </div>
+    <div class="room-form-card">
+      <div class="form-title">Create a Watch Room</div>
+      <div class="form-group">
+        <label class="form-label">Room Name</label>
+        <input class="form-input" id="roomName" type="text" placeholder="e.g. Friday Night Movies"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input class="form-input" id="hostName" type="text" placeholder="Your display name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Max Friends</label>
+          <select class="form-input" id="maxFriends">
+            <option>2 people</option>
+            <option selected>4 people</option>
+            <option>8 people</option>
+            <option>12 people</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password (optional)</label>
+        <input class="form-input" id="roomPass" type="password" placeholder="Leave blank for no password"/>
+      </div>
+      <div class="form-group">
+        <div class="form-toggle" onclick="togglePwd()">
+          <div class="toggle-switch" id="pwdToggle"><div class="toggle-thumb"></div></div>
+          <span class="toggle-label">Password protect this room</span>
+        </div>
+      </div>
+      <button class="btn-create" onclick="createRoom()">Create Room & Get Link →</button>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="tech-section" id="tech">
+  <div class="section-label">Under the Hood</div>
+  <h2 class="section-title">Production-Grade Stack</h2>
+  <p class="section-sub">Built on battle-tested open-source tech. Self-host it, own it forever.</p>
+  <div class="tech-grid">
+    <div class="tech-pill"><strong>Next.js</strong> Frontend</div>
+    <div class="tech-pill"><strong>TypeScript</strong> Type Safety</div>
+    <div class="tech-pill"><strong>Tailwind CSS</strong> Styling</div>
+    <div class="tech-pill"><strong>Framer Motion</strong> Animations</div>
+    <div class="tech-pill"><strong>Node.js</strong> Backend</div>
+    <div class="tech-pill"><strong>Express</strong> REST API</div>
+    <div class="tech-pill"><strong>Socket.IO</strong> Real-time</div>
+    <div class="tech-pill"><strong>WebRTC</strong> P2P Video</div>
+    <div class="tech-pill"><strong>PostgreSQL</strong> Database</div>
+    <div class="tech-pill"><strong>Redis</strong> State Cache</div>
+    <div class="tech-pill"><strong>FFmpeg</strong> Video Pipeline</div>
+    <div class="tech-pill"><strong>Docker</strong> Containerized</div>
+    <div class="tech-pill"><strong>Nginx</strong> Reverse Proxy</div>
+    <div class="tech-pill"><strong>Linux VPS</strong> Self-Hosted</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="nav-logo-dot"></div>
+    FriendTime
+  </div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">GitHub</a>
+    <a href="#">Documentation</a>
+    <a href="#">Self-Host Guide</a>
+  </div>
+  <div class="footer-copy">© 2025 FriendTime. All rights reserved.</div>
+</footer>
+
+<!-- ROOM CREATED MODAL -->
+<div class="modal-overlay" id="roomModal">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <h3>🎉 Room Created!</h3>
+    <p>Share this link with your friends. The party starts when everyone clicks it.</p>
+    <div class="room-link-box" id="roomLinkDisplay">friendtime.com/room/ft-xxxxxx</div>
+    <button class="btn-copy" onclick="copyLink()">Copy Invite Link</button>
+    <button class="btn-join-room" onclick="openRoom()">Enter Room Now →</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <div class="modal-close" onclick="closeLoginModal()">✕</div>
+    <h3>Welcome Back</h3>
+    <p>Sign in to manage your rooms and watch history.</p>
+    <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="you@example.com"/></div>
+    <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" placeholder="••••••••"/></div>
+    <button class="btn-create" onclick="closeLoginModal();showToast('Welcome back! 👋')">Sign In</button>
+    <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--muted)">No account? <span style="color:var(--accent2);cursor:pointer;font-weight:600" onclick="closeLoginModal();showToast('Sign-up coming soon!')">Sign Up Free</span></div>
+  </div>
+</div>
+
+<!-- WATCH ROOM OVERLAY -->
+<div class="room-overlay" id="watchRoom">
+  <div class="room-header">
+    <div class="room-header-left">
+      <div class="nav-logo-dot"></div>
+      <div class="room-name" id="roomNameDisplay">Friday Night Movies</div>
+      <div class="room-id-badge" id="roomIdBadge">ft-a8k2qp</div>
+    </div>
+    <div class="room-header-right">
+      <button class="rbtn" onclick="copyRoomLink()">🔗 Invite</button>
+      <button class="rbtn" onclick="uploadVideo()">📁 Upload Video</button>
+      <button class="rbtn danger" onclick="closeRoom()">✕ Leave</button>
+    </div>
+  </div>
+  <div class="room-body">
+    <div class="room-player">
+      <div class="room-video" onclick="toggleRoomPlay()">
+        <div class="room-video-art">
+          <div class="rv-title" id="rvTitle">Awaiting video...</div>
+          <div class="rv-sub">Host: upload a video file to start</div>
+        </div>
+        <div class="room-sync"><div class="sync-dot"></div><span id="roomSyncStatus">Synced · 4 friends</span></div>
+      </div>
+      <div class="room-ctrl">
+        <div class="rc-btn" onclick="toggleRoomPlay()" id="roomPlayBtn" title="Play/Pause">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="rc-btn" title="Rewind 10s">
+          <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8zm-1.1 11H10v-3.26L9 13.15v-.85l1.8-.62h.1V16zm4.28-1.05c0 .63-.07 1.08-.22 1.36-.18.33-.49.5-.93.5s-.74-.16-.92-.49c-.18-.32-.27-.77-.27-1.37v-.72c0-.63.07-1.08.22-1.36.18-.33.49-.5.93-.5s.74.16.92.49c.18.32.27.77.27 1.37v.72zm-.41-.74c0-.42-.03-.71-.1-.88a.33.33 0 0 0-.33-.26c-.14 0-.25.08-.32.25-.07.17-.11.45-.11.87v.9c0 .42.04.71.11.89.07.17.18.26.33.26.14 0 .25-.08.32-.25.07-.17.1-.46.1-.88v-.9z"/></svg>
+        </div>
+        <div class="rc-progress" onclick="seekRoom(event)">
+          <div class="rc-fill" id="roomProgress"></div>
+        </div>
+        <div class="rc-time" id="roomTime">00:00 / 00:00</div>
+        <div class="rc-btn" title="Volume">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        </div>
+        <div class="rc-btn" title="Fullscreen">
+          <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="room-side">
+      <div class="room-faces">
+        <div class="rf-tile rf1">AK<div class="rf-name">Arjun K.</div><div class="rf-mic mic-on" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div></div>
+        <div class="rf-tile rf2">PS<div class="rf-name">Priya S.</div><div class="rf-mic mic-on" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div></div>
+        <div class="rf-tile rf3">RV<div class="rf-name">Rohan V.</div><div class="rf-mic mic-off" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.34 3 3 3 .23 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/></svg></div></div>
+        <div class="rf-tile rf4">MJ<div class="rf-name">Mia J.</div><div class="rf-mic mic-on" style="width:16px;height:16px"><svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:#fff"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V20h-2v-4.07z"/></svg></div></div>
+      </div>
+      <div class="room-chat">
+        <div class="room-chat-msgs" id="roomChatMsgs">
+          <div class="rc-msg"><div class="rc-sender rc-s1">Arjun K.</div><div class="rc-text">Let's gooo 🚀</div></div>
+          <div class="rc-msg"><div class="rc-sender rc-s2">Priya S.</div><div class="rc-text">ready!! upload the movie</div></div>
+          <div class="rc-msg"><div class="rc-sender rc-s3">Rohan V.</div><div class="rc-text">waiting for you all 👀</div></div>
+        </div>
+        <div class="room-chat-input">
+          <input placeholder="Message..." id="roomChatInput" onkeydown="if(event.key==='Enter')sendRoomChat()"/>
+          <button onclick="sendRoomChat()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+var demoPlaying=false,demoTimer=null,demoSecs=2052;
+var roomId='',currentRoomName='';
+
+function toggleDemoPlay(){
+  demoPlaying=!demoPlaying;
+  var icon=`<path d="${demoPlaying?'M6 19h4V5H6v14zm8-14v14h4V5h-4z':'M8 5v14l11-7z'}"/>`;
+  document.getElementById('demoPlayIcon').innerHTML=icon;
+  document.getElementById('ctrlIcon').innerHTML=icon;
+  document.getElementById('syncStatus').textContent=demoPlaying?'All synced':'Paused';
+  if(demoPlaying){demoTimer=setInterval(tickDemo,1000)}else{clearInterval(demoTimer)}
+}
+function tickDemo(){
+  demoSecs++;
+  if(demoSecs>=10140)demoSecs=0;
+  document.getElementById('demoProgress').style.width=(demoSecs/10140*100)+'%';
+  document.getElementById('demoTime').textContent=fmtTime(demoSecs)+' / 2:49:00';
+}
+function fmtTime(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return h+':'+pad(m)+':'+pad(sec)}
+function pad(n){return n<10?'0'+n:n}
+function seekDemo(e){var bar=e.currentTarget,pct=(e.clientX-bar.getBoundingClientRect().left)/bar.offsetWidth;demoSecs=Math.floor(pct*10140);document.getElementById('demoProgress').style.width=(pct*100)+'%';document.getElementById('demoTime').textContent=fmtTime(demoSecs)+' / 2:49:00';}
+function switchTab(tab){
+  document.querySelectorAll('.stab').forEach((t,i)=>{t.classList.toggle('active',['friends','chat'][i]===tab)});
+  document.getElementById('tab-friends').classList.toggle('active',tab==='friends');
+  document.getElementById('tab-chat').classList.toggle('active',tab==='chat');
+}
+function sendReaction(r){showToast('Reaction sent: '+r)}
+function sendChat(){
+  var inp=document.getElementById('chatInput'),msg=inp.value.trim();
+  if(!msg)return;
+  var div=document.createElement('div');div.className='chat-msg';
+  div.innerHTML=`<div class="chat-sender" style="color:#ff8ca8">You</div><div class="chat-text">${msg}</div>`;
+  document.getElementById('chatMessages').appendChild(div);
+  inp.value='';
+  document.getElementById('chatMessages').scrollTop=9999;
+}
+function togglePwd(){var t=document.getElementById('pwdToggle');t.classList.toggle('on')}
+function genId(){return 'ft-'+Math.random().toString(36).substr(2,6)}
+function createRoom(){
+  var name=document.getElementById('roomName').value.trim()||'My Watch Room';
+  var host=document.getElementById('hostName').value.trim()||'Host';
+  roomId=genId();
+  currentRoomName=name;
+  document.getElementById('roomLinkDisplay').textContent='friendtime.com/room/'+roomId;
+  document.getElementById('roomModal').classList.add('open');
+}
+function closeModal(){document.getElementById('roomModal').classList.remove('open')}
+function copyLink(){navigator.clipboard.writeText('https://friendtime.com/room/'+roomId).catch(()=>{});showToast('Link copied! 🔗')}
+function openRoom(){
+  closeModal();
+  document.getElementById('roomNameDisplay').textContent=currentRoomName||'My Watch Room';
+  document.getElementById('roomIdBadge').textContent=roomId||genId();
+  document.getElementById('watchRoom').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function openDemoRoom(){
+  currentRoomName='Demo Room — Interstellar';
+  roomId=genId();
+  document.getElementById('roomNameDisplay').textContent=currentRoomName;
+  document.getElementById('roomIdBadge').textContent=roomId;
+  document.getElementById('rvTitle').textContent='Interstellar';
+  document.getElementById('watchRoom').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeRoom(){document.getElementById('watchRoom').classList.remove('open');document.body.style.overflow=''}
+var roomPlaying=false,roomSecs=0,roomTimer=null;
+function toggleRoomPlay(){
+  roomPlaying=!roomPlaying;
+  var btn=document.getElementById('roomPlayBtn');
+  btn.innerHTML=roomPlaying
+    ?`<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`
+    :`<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+  document.getElementById('roomSyncStatus').textContent=roomPlaying?'Playing · 4 synced':'Paused · 4 friends';
+  if(roomPlaying){roomTimer=setInterval(tickRoom,1000)}else{clearInterval(roomTimer)}
+}
+function tickRoom(){
+  roomSecs++;if(roomSecs>7200)roomSecs=0;
+  var pct=roomSecs/7200*100;
+  document.getElementById('roomProgress').style.width=pct+'%';
+  var m=Math.floor(roomSecs/60),s=roomSecs%60;
+  document.getElementById('roomTime').textContent=pad(m)+':'+pad(s)+' / 2:00:00';
+}
+function seekRoom(e){var bar=e.currentTarget,pct=(e.clientX-bar.getBoundingClientRect().left)/bar.offsetWidth;roomSecs=Math.floor(pct*7200);var m=Math.floor(roomSecs/60),s=roomSecs%60;document.getElementById('roomTime').textContent=pad(m)+':'+pad(s)+' / 2:00:00';document.getElementById('roomProgress').style.width=(pct*100)+'%';}
+function copyRoomLink(){navigator.clipboard.writeText('https://friendtime.com/room/'+roomId).catch(()=>{});showToast('Invite link copied! 🔗')}
+function uploadVideo(){showToast('File picker: upload MP4, WebM, MOV, MKV...');document.getElementById('rvTitle').textContent='Interstellar (2014).mp4';document.getElementById('roomSyncStatus').textContent='Video loaded · 4 ready';}
+function sendRoomChat(){
+  var inp=document.getElementById('roomChatInput'),msg=inp.value.trim();if(!msg)return;
+  var div=document.createElement('div');div.className='rc-msg';
+  div.innerHTML=`<div class="rc-sender" style="color:var(--accent2)">You</div><div class="rc-text">${msg}</div>`;
+  document.getElementById('roomChatMsgs').appendChild(div);
+  inp.value='';document.getElementById('roomChatMsgs').scrollTop=9999;
+}
+function scrollToCreate(){document.getElementById('create').scrollIntoView({behavior:'smooth'})}
+function showLoginModal(){document.getElementById('loginModal').classList.add('open')}
+function closeLoginModal(){document.getElementById('loginModal').classList.remove('open')}
+var toastTimer=null;
+function showToast(msg){
+  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
+}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('open');document.body.style.overflow=''}}));
+</script>
+</body>
+</html>
